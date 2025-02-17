@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.lehdev.agendamentoapi.business.mapper.IAgendamentoMapper;
 import org.lehdev.agendamentoapi.controller.dto.in.AgendamentoRecord;
 import org.lehdev.agendamentoapi.controller.dto.out.AgendamentoRecordOut;
+import org.lehdev.agendamentoapi.infrastructure.entities.Agendamento;
 import org.lehdev.agendamentoapi.infrastructure.exception.NotFoundException;
 import org.lehdev.agendamentoapi.infrastructure.repositories.AgendamentoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,13 @@ public class AgendamentoService {
         return agendamentoMapper.paraOut(repository
                 .findById(id)
                 .orElseThrow(() -> new NotFoundException("Id não encontrado")));
+    }
+
+    public void cancelarAgendamento(Long id) {
+        Agendamento agendamento = repository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Id não encontrado"));
+
+        repository.save(agendamentoMapper.paraEntityCancelamento(agendamento));
     }
 /*
     public AgendamentoService(AgendamentoRepository repository, IAgendamentoMapper agendamentoMapper) {
