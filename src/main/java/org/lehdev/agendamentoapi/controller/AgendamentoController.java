@@ -5,13 +5,10 @@ import org.lehdev.agendamentoapi.business.AgendamentoService;
 import org.lehdev.agendamentoapi.controller.dto.in.AgendamentoRecord;
 import org.lehdev.agendamentoapi.controller.dto.out.AgendamentoRecordOut;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-//@RequiredArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping("/agendamento")
 public class AgendamentoController {
 
@@ -22,7 +19,12 @@ public class AgendamentoController {
         return ResponseEntity.ok(agendamentoService.gravarAgendamento(agendamento));
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<AgendamentoRecordOut> buscarAgendamentoPorId(@PathVariable ("id") Long id) {
+        return ResponseEntity.ok(agendamentoService.buscarAgendamentosPorId(id));
+    }
+/*
     public AgendamentoController(AgendamentoService agendamentoService) {
         this.agendamentoService = agendamentoService;
-    }
+    }*/
 }

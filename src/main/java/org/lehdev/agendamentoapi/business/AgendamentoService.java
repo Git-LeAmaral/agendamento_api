@@ -4,13 +4,14 @@ import lombok.RequiredArgsConstructor;
 import org.lehdev.agendamentoapi.business.mapper.IAgendamentoMapper;
 import org.lehdev.agendamentoapi.controller.dto.in.AgendamentoRecord;
 import org.lehdev.agendamentoapi.controller.dto.out.AgendamentoRecordOut;
+import org.lehdev.agendamentoapi.infrastructure.exception.NotFoundException;
 import org.lehdev.agendamentoapi.infrastructure.repositories.AgendamentoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
-//@RequiredArgsConstructor
+@RequiredArgsConstructor
 @Service
 @ComponentScan(basePackages = "org.lehdev.agendamentoapi.business.mapper")
 public class AgendamentoService {
@@ -31,8 +32,14 @@ public class AgendamentoService {
                         agendamentoMapper.paraEntity(agendamento)));
     }
 
+    public AgendamentoRecordOut buscarAgendamentosPorId(Long id) {
+        return agendamentoMapper.paraOut(repository
+                .findById(id)
+                .orElseThrow(() -> new NotFoundException("Id não encontrado")));
+    }
+/*
     public AgendamentoService(AgendamentoRepository repository, IAgendamentoMapper agendamentoMapper) {
         this.repository = repository;
         this.agendamentoMapper = agendamentoMapper;
-    }
+    }*/
 }
